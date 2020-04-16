@@ -8,9 +8,10 @@ let portnummer = 3000;
 app.use(express.static('public'))
 
 app.get('/', function (req, res){
-  res.send("Hello World");
+  res.send({Hello: 'World'});
 });
 
+//selectdata from media
 app.get('/getid', function (req, res){
   let sql = "SELECT * FROM media";
   
@@ -33,6 +34,30 @@ app.get('/getid', function (req, res){
   });   
 });
 
+//update
+app.get('/update', function (req, res){
+  let sql = "SELECT * id, url, name FROM media";
+
+  let db = new sqlite3.Database('media.db', (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log('Connected to the media database.');
+  });
+
+  db.all(sql, (err,rows) => {
+    res.json({name: rows})
+  });
+
+  db.close((err) => {
+    if (err){
+    console.log(err.message);
+  }
+  console.log('Close the database connection.');
+  });   
+});
+
+//connect to database
 let db = new sqlite3.Database('media.db', (err) => {
     if (err) {
       console.error(err.message);
