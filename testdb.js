@@ -27,6 +27,28 @@ app.get('/insert', function (req, res){
       });   
     });
 
+app.get('/update', function (req, res){
+
+    var sql = "UPDATE media SET name = 'Sandra' WHERE id=5";
+   
+  let db = new sqlite3.Database('media.db', (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log('Connected to the media database.');
+  });
+  db.all(sql, (err,rows) => {
+    res.json({name: rows})
+  });
+
+  db.close((err) => {
+    if (err){
+    console.log(err.message);
+  }
+  console.log('Close the database connection.');
+  });
+});
+
 
 
 
