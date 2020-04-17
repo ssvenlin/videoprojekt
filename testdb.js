@@ -49,6 +49,10 @@ app.get('/update', function (req, res){
   });
 });
 
+app.get('/delete', function (req,res){
+  let sql = 'DELETE FROM media WHERE id=6';
+  
+})
 
 
 
