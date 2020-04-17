@@ -1,0 +1,12 @@
+SELECT name FROM media
+
+INSERT into media (url, name)
+VALUES ('www.youtube.com', 'Sandra');
+
+SELECT 
+url, 
+name, 
+id
+FROM media
+
+DELETE FROM media WHERE 'Sandra'
