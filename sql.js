@@ -4,7 +4,7 @@ var db = new sqlite3.Database('media.db');
 
 db.serialize(function() {
 
-  db.run("CREATE TABLE if not exists user_info (info TEXT)");
+  db.run("CREATE media if not exists url (info TEXT)");
   var stmt = db.prepare("INSERT INTO media VALUES (?)");
   for (var i = 0; i < 10; i++) {
       stmt.run("funkkar " + i);
