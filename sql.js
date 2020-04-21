@@ -1,28 +1,19 @@
-var sqlite3 = require("sqlite3"),
-    TransactionDatabase = require("sqlite3-transactions").TransactionDatabase;
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('media.db');
 
-    var db = new TransactionDatabase(
-      new sqlite3.Database("media.sqlite", sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE)
-  );
- 
-db.exec("CREATE TABLE ...", function(err) {
-    // table created
+
+db.serialize(function() {
+
+  db.run("CREATE TABLE if not exists user_info (info TEXT)");
+  var stmt = db.prepare("INSERT INTO media VALUES (?)");
+  for (var i = 0; i < 10; i++) {
+      stmt.run("funkkar " + i);
+  }
+  stmt.finalize();
+
+  db.each("SELECT rowid AS id, info FROM media", function(err, row) {
+      console.log(row.id + ": " + row.info);
+  });
 });
 
-// Begin a transaction.
-db.beginTransaction(function(err, transaction) {
-  // Now we are inside a transaction.
-  // Use transaction as normal sqlite3.Database object.
-  transaction.run("INSERT ...");
-  database.run("INSERT ..."); 
-  someAsync(function() {
-    
-    // Remember to .commit() or .rollback()
-    transaction.commit(function(err) {
-        if (err) return console.log("NO :-( commit() failed.", err);
-        console.log("YES commit() was successful.");
-    });
-    // or transaction.rollback()
-    
-});
-});
+db.close();
