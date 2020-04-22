@@ -11,8 +11,8 @@ const port = 3000
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.get("/name", (req, res) => {
-    const sql = "SELECT * FROM media"//http://localhost:3000/users
+app.get("/users", (req, res) => {
+    const sql = "SELECT * FROM users"//http://localhost:3000/users
     db.all(sql, [], (err, rows) => {
       if (err) {
         return console.error(err.message);
