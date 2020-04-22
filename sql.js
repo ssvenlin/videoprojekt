@@ -1,19 +1,49 @@
+const express = require('express')
+const app = express()
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('media.db');
+var cors = require('cors')
+var db = new sqlite3.Database('./media.sql');
+app.use(cors())
+
+const port = 3000
 
 
-db.serialize(function() {
 
-  db.run("CREATE media if not exists url (info TEXT)");
-  var stmt = db.prepare("INSERT INTO media VALUES (?)");
-  for (var i = 0; i < 10; i++) {
-      stmt.run("funkkar " + i);
-  }
-  stmt.finalize();
+app.get('/', (req, res) => res.send('Hello World!'))
 
-  db.each("SELECT rowid AS id, info FROM media", function(err, row) {
-      console.log(row.id + ": " + row.info);
+app.get("/name", (req, res) => {
+    const sql = "SELECT * FROM media"//http://localhost:3000/users
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      res.send({ model: rows });
+    });
   });
-});
 
-db.close();
+  app.get("/media", (req, res) => {//http://localhost:3000/media
+    const sql = "SELECT * FROM media"
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      res.send({ model: rows });
+    });
+  });
+
+  app.get("/usermedia/:id", (req, res) => { //http://localhost:3000/usermedia/2
+    const sql = "SELECT * FROM users,media, user_media WHERE user_media.userid =users.id AND user_media.mediaid=media.id AND user_media.userid=?"
+    db.all(sql, [req.params.id], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      res.send({ model: rows });
+    });
+  });
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+
+process.on('SIGINT', () => {
+    db.close();
+    server.close();
+});
