@@ -41,6 +41,10 @@ app.get("/users", (req, res) => {
     });
   });
 
+  app.get("/delete", (req, res) => {
+    const sql = ""
+  })
+
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 
 process.on('SIGINT', () => {
