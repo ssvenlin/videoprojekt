@@ -42,7 +42,23 @@ app.get("/users", (req, res) => {
   });
 
   app.get("/delete", (req, res) => {
-    const sql = ""
+    const sql = "DELETE FROM media WHERE id = 1";
+    db.all(sql, [req.params.id], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      res.send({ model: rows });
+    });
+  });
+
+  app.get("/update", (req, res) => {
+    const sql = "UPDATE users SET name = 'Sandra' WHERE id=1";
+    db.all(sql, [req.params.id], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      res.send({ model: rows });
+    });
   })
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
