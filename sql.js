@@ -7,7 +7,9 @@ app.use(cors())
 
 const port = 3000
 
+//add public folder
 
+app.use(express.static('public'));
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
