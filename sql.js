@@ -65,10 +65,15 @@ app.get("/users", (req, res) => {
 
   app.post("/input", (req, res) => {
     const username = req.body.username
-    console.log(req.body.username);
+    db.all(sql, [req.params.id], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      res.send(req.body.username);
+    });
+  });
     
-    res.end()
-  })
+ 
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 
