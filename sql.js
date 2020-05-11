@@ -61,6 +61,13 @@ app.get("/users", (req, res) => {
       }
       res.send({ model: rows });
     });
+  });
+
+  app.post("/input", (req, res) => {
+    const username = req.body.username
+    console.log(req.body.username);
+    
+    res.end()
   })
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
