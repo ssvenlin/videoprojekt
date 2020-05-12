@@ -69,7 +69,7 @@ app.get("/users", (req, res) => {
       if (err) {
         return console.error(err.message);
       }
-      res.send(req.body.username);
+      res.end(req.body.username);
     });
   });
     
