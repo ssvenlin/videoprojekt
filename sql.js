@@ -69,6 +69,8 @@ app.get("/users", (req, res) => {
       if (err) {
         return console.error(err.message);
       }
+      console.log(req.body.username);
+      
       res.end(req.body.username);
     });
   });
