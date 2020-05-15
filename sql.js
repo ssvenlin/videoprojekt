@@ -5,6 +5,8 @@ var cors = require('cors')
 var db = new sqlite3.Database('./media.sql');
 app.use(cors())
 
+app.use(express.urlencoded())
+
 const port = 3000
 
 //add public folder
@@ -63,17 +65,12 @@ app.get("/users", (req, res) => {
     });
   });
 
-  app.post("/input", (req, res) => {
+  app.post("/submit-form", (req, res) => {
     const username = req.body.username
-    db.all(sql, [req.params.id], (err, rows) => {
-      if (err) {
-        return console.error(err.message);
-      }
-      console.log(req.body.username);
-      
-      res.end(req.body.username);
+    //...
+    res.end(username);
     });
-  });
+ 
     
  
 
