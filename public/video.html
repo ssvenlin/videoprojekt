@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
     <link rel="stylesheet" href="style.css">
     <title>Video</title>
 </head>
@@ -37,7 +38,21 @@
             </tr>
           </div>
           </table>
+          <div id="lista"></div>
+          <script>
+              $(document).ready(function () {
+            let url = "http://localhost:3000/usermedia"
 
+            $.getJSON(url, function (result) {
+
+                $.each(result, function (i, field) {
+                    $("#lista").append(`<tr><td><h1>${field.name}</h1></td><td>${field.title}</td><td>${field.id}</tr>`);
+                });
+
+            });
+        });
+          </script>
+<!--
         <div class="card"> 
             <div class="card-content">
               <div class="media">
@@ -68,6 +83,6 @@
         
             Sorry, your browser doesn't support embedded videos.
         </video>
-          
+          -->
     </body>
     </html>

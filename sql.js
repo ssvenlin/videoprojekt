@@ -3,9 +3,13 @@ const app = express()
 var sqlite3 = require('sqlite3').verbose();
 var cors = require('cors')
 var db = new sqlite3.Database('./media.sql');
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors())
 
-app.use(express.urlencoded())
+
 
 const port = 3000
 
@@ -44,6 +48,15 @@ app.get("/users", (req, res) => {
       res.send({ model: rows });
     });
   });
+  app.get("/usermedia", (req, res) => { //http://localhost:3000/usermedia/2
+    const sql = "SELECT * FROM users,media, user_media WHERE user_media.userid =users.id AND user_media.mediaid=media.id"
+    db.all(sql, [req.params.id], (err, rows) => {
+      if (err) {
+        return console.error(err.message);
+      }
+      res.send(rows);
+    });
+  });
 
   app.get("/delete", (req, res) => {
     const sql = "DELETE FROM media WHERE id = 1";
@@ -66,15 +79,16 @@ app.get("/users", (req, res) => {
   });
 
   app.post("/submit-form", (req, res) => {
-    const username = req.body.username
+    const lname = req.body.lname
+    const fname = req.body.fname
     //...
-    res.end(username);
+    res.send("hej"+fname +" " +lname);
     });
  
     
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 
-process.on('SIGINT', () => {
-    db.close();
-    server.close();
-});
+// process.on('SIGINT', () => {
+//     db.close();
+//     server.close();
+// });
