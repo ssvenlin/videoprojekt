@@ -82,7 +82,7 @@ app.get("/users", (req, res) => {
     const lname = req.body.lname
     const fname = req.body.fname
     //...
-    res.send("hej"+fname +" " +lname);
+    res.send("hej "+fname +" " +lname);
     });
  
     
